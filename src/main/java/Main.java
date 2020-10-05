@@ -20,7 +20,6 @@ public class Main {
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException, ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         SQLServerConnectMicrosoft.initialConnect();
 
-
         final FirebaseDatabase myDB;
         DatabaseReference myDBRef;
         FileInputStream serviceAccount;
