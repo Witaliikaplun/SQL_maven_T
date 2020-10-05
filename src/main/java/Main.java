@@ -6,58 +6,48 @@ import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.io.*;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException, ExecutionException, InterruptedException, ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
-        SQLServerConnectMicrosoft.initialConnect();
+    public static void main(String[] args) throws IOException, ExecutionException,
+            InterruptedException, ClassNotFoundException, SQLException,
+            InstantiationException, IllegalAccessException {
+        String dataIN = "";
+        String dataOldIN = "";
+        final String key = "key";
+        final String sqlQuere = "SELECT TOP 10 * FROM Table_888";
 
-        final FirebaseDatabase myDB;
-        DatabaseReference myDBRef;
+        SQLServerConnectMicrosoft.initialConnectSQL();
+
         FileInputStream serviceAccount;
-        final String MY_DATABASE = "mydatabase";
         FirebaseOptions options = null;
-        Scanner scanner = new Scanner(System.in);
-        InputStreamReader sr = new InputStreamReader(System.in, "utf8");
-
-
         serviceAccount = new FileInputStream("./ServiceAccountKey.json");
         options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                .setDatabaseUrl("https://testfirebase3-24075.firebaseio.com")
+                .setDatabaseUrl("https://testfirebase3-24075.firebaseiok;lkd;lk;lkdd;'lfk;lk;lskdflk;.com")
                 .build();
         FirebaseApp.initializeApp(options);
 
         Firestore db = FirestoreClient.getFirestore();
         DocumentReference docRef = db.collection("users1").document("alovelace");
-        String in = "";
-        String oldin = "";
-        String key = "key";
-        int count = 0;
+
         HashMap<String, String> message = new HashMap<String, String>();
         while (true){
-
-            in = SQLServerConnectMicrosoft.read();
-
+            dataIN = SQLServerConnectMicrosoft.readSQLData(sqlQuere);
             Thread.sleep(2000);
-            if(!in.equals("нет данных")){
-                if(!oldin.equals(in)){
-                    System.out.println(in);
-                    oldin = in;
-                    message.put(key + count, in);
+            if(!dataIN.equals("нет данных")){
+                if(!dataOldIN.equals(dataIN)){
+                    System.out.println(dataIN);
+                    dataOldIN = dataIN;
+                    message.put(key, dataIN);
                     ApiFuture<WriteResult> result = docRef.set(message);
                     System.out.println("susesfull: " + result.get().getUpdateTime());
                 }
             }
         }
-
     }
 }
