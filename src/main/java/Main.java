@@ -20,24 +20,26 @@ public class Main {
         String dataOldIN = "";
         final String key = "key";
         final String sqlQuere = "SELECT TOP 10 * FROM Table_888";
-
-        SQLServerConnectMicrosoft.initialConnectSQL();
-
         FileInputStream serviceAccount;
         FirebaseOptions options = null;
+        DocumentReference docRef;
+        SQLServerConnectMicrosoft sqlServerConnectMicrosoft;
+
+        sqlServerConnectMicrosoft = new SQLServerConnectMicrosoft();
+        sqlServerConnectMicrosoft.initialConnectSQL();
+
         serviceAccount = new FileInputStream("./ServiceAccountKey.json");
         options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                 .setDatabaseUrl("https://testfirebase3-24075.firebaseiok;lkd;lk;lkdd;'lfk;lk;lskdflk;.com")
                 .build();
         FirebaseApp.initializeApp(options);
-
         Firestore db = FirestoreClient.getFirestore();
-        DocumentReference docRef = db.collection("users1").document("alovelace");
 
+        docRef = db.collection("users1").document("alovelace");
         HashMap<String, String> message = new HashMap<String, String>();
         while (true){
-            dataIN = SQLServerConnectMicrosoft.readSQLData(sqlQuere);
+            dataIN = sqlServerConnectMicrosoft.readSQLData(sqlQuere);
             Thread.sleep(2000);
             if(!dataIN.equals("нет данных")){
                 if(!dataOldIN.equals(dataIN)){
