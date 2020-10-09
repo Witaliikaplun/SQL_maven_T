@@ -1,5 +1,6 @@
 import java.sql.*;
 
+//Класс для работы с SQL сервером
 public class SQLServerConnectMicrosoft {
     private  final String connectionUrl = "jdbc:sqlserver://CLK5101N:55319;" +
             "databaseName=DATA_WINCC_TEST;user=LoginSQL;password=12345";
@@ -8,7 +9,7 @@ public class SQLServerConnectMicrosoft {
     private  ResultSet rs;
     private  String dannie = "";
 
-    public  void initialConnectSQL() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+    public  SQLServerConnectMicrosoft() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
         try {
             con = DriverManager.getConnection(connectionUrl);
